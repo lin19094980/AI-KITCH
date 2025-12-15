@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
+    <title>AI Pocket Kitchen</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@300;400;500;600&family=Nunito:wght@400;600;700&family=Noto+Serif+JP:wght@400;700;900&display=swap" rel="stylesheet">
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            fontFamily: {
+              sans: ['Nunito', 'sans-serif'],
+              display: ['Fredoka', 'sans-serif'],
+              serif: ['"Noto Serif JP"', 'serif'],
+            },
+            colors: {
+              chef: {
+                50: '#fff7ed',
+                100: '#ffedd5',
+                200: '#fed7aa',
+                300: '#fdba74',
+                400: '#fb923c',
+                500: '#f97316',
+                600: '#ea580c',
+                700: '#c2410c',
+                800: '#9a3412',
+                900: '#7c2d12',
+              },
+              jp: {
+                50: '#fdfbf7', // Rice Paper
+                100: '#f4f1ea',
+                200: '#e2dccc',
+                300: '#c5bfa8',
+                400: '#a8a085',
+                500: '#8c8468',
+                600: '#6f6850',
+                700: '#554f3d',
+                800: '#3e392e', // Dark Wood
+                900: '#2b261f',
+                indigo: '#3730a3',
+                sakura: '#fbcfe8',
+                matcha: '#65a30d',
+              }
+            },
+            animation: {
+              'boil': 'boil 2s infinite ease-in-out',
+              'float-bob': 'floatBob 3s infinite ease-in-out',
+              'sizzle': 'sizzle 0.08s infinite linear',
+              'chop': 'chop 0.35s infinite cubic-bezier(0.36, 0, 0.66, -0.56)',
+              'knife-cut': 'knifeCut 0.35s infinite cubic-bezier(0.1, 0.7, 1.0, 0.1)',
+              'spin-fast': 'spin 0.4s linear infinite',
+              'shake': 'shake 0.5s cubic-bezier(.36,.07,.19,.97) infinite',
+              'float': 'float 3s ease-in-out infinite',
+              'steam': 'steam 2.5s infinite linear',
+              'bubble-rise': 'bubbleRise 2s infinite ease-in',
+              'oil-pop': 'pop 0.4s infinite ease-out',
+              'pulse-glow': 'pulseGlow 2s infinite',
+              'whirl': 'spin 0.6s linear infinite reverse',
+              'rise-slow': 'rise 8s infinite linear',
+              'wave-slow': 'wave 6s infinite ease-in-out',
+              'twinkle': 'twinkle 3s infinite ease-in-out',
+            },
+            keyframes: {
+              boil: {
+                '0%, 100%': { transform: 'translateY(0) rotate(0deg) scale(1)' },
+                '25%': { transform: 'translateY(-4px) rotate(-2deg) scale(1.02)' },
+                '50%': { transform: 'translateY(-8px) rotate(2deg) scale(1.05)' },
+                '75%': { transform: 'translateY(-4px) rotate(-1deg) scale(1.02)' },
+              },
+              floatBob: {
+                '0%, 100%': { transform: 'translateY(0) rotate(-5deg)' },
+                '50%': { transform: 'translateY(-15px) rotate(5deg)' },
+              },
+              sizzle: {
+                '0%': { transform: 'translate(0, 0) scale(1)' },
+                '25%': { transform: 'translate(1px, 1px) scale(1.02)' },
+                '50%': { transform: 'translate(-1px, -1px) scale(0.98)' },
+                '75%': { transform: 'translate(-1px, 1px) scale(1.02)' },
+                '100%': { transform: 'translate(1px, -1px) scale(1)' },
+              },
+              shake: {
+                '10%, 90%': { transform: 'translate3d(-1px, 0, 0)' },
+                '20%, 80%': { transform: 'translate3d(2px, 0, 0)' },
+                '30%, 50%, 70%': { transform: 'translate3d(-4px, 0, 0)' },
+                '40%, 60%': { transform: 'translate3d(4px, 0, 0)' },
+              },
+              chop: {
+                '0%': { transform: 'scaleY(1) scaleX(1)' },
+                '30%': { transform: 'scaleY(0.7) scaleX(1.15) translateY(4px)' }, /* Impact Squash */
+                '60%': { transform: 'scaleY(1.05) scaleX(0.95) translateY(-2px)' }, /* Rebound Stretch */
+                '100%': { transform: 'scaleY(1) scaleX(1)' },
+              },
+              knifeCut: {
+                '0%': { transform: 'translateY(-25px) rotate(-15deg)', opacity: '0.8' },
+                '40%': { transform: 'translateY(2px) rotate(0deg)', opacity: '1' }, /* Hit */
+                '100%': { transform: 'translateY(-25px) rotate(-15deg)', opacity: '0' },
+              },
+              float: {
+                '0%, 100%': { transform: 'translateY(0)' },
+                '50%': { transform: 'translateY(-10px)' },
+              },
+              steam: {
+                '0%': { opacity: '0', transform: 'translateY(0) scale(0.8)' },
+                '20%': { opacity: '0.6' },
+                '80%': { opacity: '0.4' },
+                '100%': { opacity: '0', transform: 'translateY(-50px) scale(2)' },
+              },
+              bubbleRise: {
+                '0%': { transform: 'translateY(20px) scale(0.5)', opacity: '0' },
+                '20%': { opacity: '0.7' },
+                '100%': { transform: 'translateY(-120px) scale(1.5)', opacity: '0' },
+              },
+              pop: {
+                '0%': { transform: 'scale(0)', opacity: '1' },
+                '50%': { opacity: '1' },
+                '100%': { transform: 'scale(2) translateY(-30px)', opacity: '0' },
+              },
+              pulseGlow: {
+                '0%, 100%': { opacity: '0.4', filter: 'brightness(1) sepia(0)' },
+                '50%': { opacity: '0.8', filter: 'brightness(1.2) sepia(0.3)' },
+              },
+              rise: {
+                '0%': { transform: 'translateY(100%) scale(0.5)', opacity: '0' },
+                '20%': { opacity: '0.4' },
+                '80%': { opacity: '0.2' },
+                '100%': { transform: 'translateY(-20%) scale(1.5)', opacity: '0' },
+              },
+              wave: {
+                '0%, 100%': { transform: 'translateY(0) scale(1.02)' },
+                '50%': { transform: 'translateY(-10px) scale(0.98)' },
+              },
+              twinkle: {
+                '0%, 100%': { opacity: '0.2', transform: 'scale(0.8)' },
+                '50%': { opacity: '0.6', transform: 'scale(1.2)' },
+              }
+            }
+          }
+        }
+      }
+    </script>
+    <style>
+      body {
+        background-color: #fef3c7;
+      }
+      .slide-up {
+        animation: slideUp 0.5s ease-out forwards;
+      }
+      @keyframes slideUp {
+        from { transform: translateY(20px); opacity: 0; }
+        to { transform: translateY(0); opacity: 1; }
+      }
+      
+      /* Texture Classes */
+      .bg-kitchen-tile {
+        background-color: #f0fdf4;
+        background-image: 
+          linear-gradient(45deg, #dcfce7 25%, transparent 25%), 
+          linear-gradient(-45deg, #dcfce7 25%, transparent 25%), 
+          linear-gradient(45deg, transparent 75%, #dcfce7 75%), 
+          linear-gradient(-45deg, transparent 75%, #dcfce7 75%);
+        background-size: 40px 40px;
+        background-position: 0 0, 0 20px, 20px -20px, -20px 0px;
+      }
+      
+      .bg-wood {
+        background-color: #d4a373;
+        background-image: repeating-linear-gradient(45deg, transparent, transparent 10px, rgba(0,0,0,0.03) 10px, rgba(0,0,0,0.03) 20px);
+      }
+      
+      .bg-wood-dark {
+        background-color: #92400e;
+        background-image: repeating-linear-gradient(90deg, transparent, transparent 1px, rgba(0,0,0,0.1) 1px, rgba(0,0,0,0.1) 3px);
+      }
+      
+      .bg-wood-darker {
+         background-color: #554f3d;
+         background-image: repeating-linear-gradient(90deg, transparent, transparent 1px, rgba(0,0,0,0.2) 1px, rgba(0,0,0,0.2) 2px);
+      }
+
+      .bg-marble {
+        background-color: #f5f5f4;
+        background-image: 
+          radial-gradient(at 10% 10%, rgba(0,0,0,0.03) 0%, transparent 50%),
+          radial-gradient(at 90% 90%, rgba(0,0,0,0.03) 0%, transparent 50%),
+          linear-gradient(45deg, rgba(0,0,0,0.02) 25%, transparent 25%, transparent 75%, rgba(0,0,0,0.02) 75%, rgba(0,0,0,0.02));
+        background-size: 100% 100%, 100% 100%, 60px 60px;
+      }
+
+      .bg-stainless {
+         background: linear-gradient(135deg, #f1f5f9 0%, #cbd5e1 50%, #94a3b8 100%);
+      }
+      
+      /* Japanese Theme Textures */
+      .bg-seigaiha {
+          background-color: #fdfbf7;
+          background-image: 
+              radial-gradient(circle at 50% 100%, transparent 13px, #e2dccc 14px, #e2dccc 15px, transparent 16px), 
+              radial-gradient(circle at 50% 0%, transparent 13px, #e2dccc 14px, #e2dccc 15px, transparent 16px);
+          background-size: 40px 40px;
+          background-position: 0 0, 20px 20px;
+      }
+      
+      .bg-tatami {
+          background-color: #e8e4c9;
+          background-image: repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(0,0,0,0.05) 3px), repeating-linear-gradient(90deg, transparent, transparent 40px, rgba(0,0,0,0.1) 41px);
+      }
+      
+      .bg-bamboo {
+          background-color: #d1d9b3;
+          background-image: linear-gradient(90deg, transparent 50%, rgba(255,255,255,0.2) 50%);
+          background-size: 10px 100%;
+      }
+
+      .scrollbar-hide::-webkit-scrollbar {
+          display: none;
+      }
+      .scrollbar-hide {
+          -ms-overflow-style: none;
+          scrollbar-width: none;
+      }
+      
+      /* Custom Scrollbar */
+      .custom-scrollbar::-webkit-scrollbar {
+        width: 6px;
+        height: 6px;
+      }
+      .custom-scrollbar::-webkit-scrollbar-track {
+        background: transparent;
+      }
+      .custom-scrollbar::-webkit-scrollbar-thumb {
+        background: rgba(120, 113, 108, 0.4);
+        border-radius: 3px;
+      }
+      .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+        background: rgba(120, 113, 108, 0.6);
+      }
+    </style>
+  <script type="importmap">
+{
+  "imports": {
+    "react/": "https://aistudiocdn.com/react@^19.2.0/",
+    "react": "https://aistudiocdn.com/react@^19.2.0",
+    "react-dom/": "https://aistudiocdn.com/react-dom@^19.2.0/",
+    "lucide-react": "https://aistudiocdn.com/lucide-react@^0.554.0",
+    "@google/genai": "https://aistudiocdn.com/@google/genai@^1.30.0"
+  }
+}
+</script>
+</head>
+  <body>
+    <div id="root"></div>
+  </body>
+</html>
